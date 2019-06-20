@@ -15,6 +15,7 @@
 		3671243722B962980080ADF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3671243522B962980080ADF3 /* Main.storyboard */; };
 		3671243922B9629A0080ADF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3671243822B9629A0080ADF3 /* Assets.xcassets */; };
 		3671243C22B9629A0080ADF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3671243A22B9629A0080ADF3 /* LaunchScreen.storyboard */; };
+		3671244422B98D340080ADF3 /* SpaceDust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3671244322B98D340080ADF3 /* SpaceDust.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3671243822B9629A0080ADF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3671243B22B9629A0080ADF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3671243D22B9629A0080ADF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3671244322B98D340080ADF3 /* SpaceDust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SpaceDust.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				3671243822B9629A0080ADF3 /* Assets.xcassets */,
 				3671243A22B9629A0080ADF3 /* LaunchScreen.storyboard */,
 				3671243D22B9629A0080ADF3 /* Info.plist */,
+				3671244322B98D340080ADF3 /* SpaceDust.sks */,
 			);
 			path = SpaceForce;
 			sourceTree = "<group>";
@@ -135,6 +138,7 @@
 				3671242E22B962980080ADF3 /* GameScene.sks in Resources */,
 				3671243922B9629A0080ADF3 /* Assets.xcassets in Resources */,
 				3671243C22B9629A0080ADF3 /* LaunchScreen.storyboard in Resources */,
+				3671244422B98D340080ADF3 /* SpaceDust.sks in Resources */,
 				3671243022B962980080ADF3 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,7 +308,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.skyyylite.SpaceForce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -322,7 +326,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.skyyylite.SpaceForce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
