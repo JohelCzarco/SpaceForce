@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		360B10AE22BC093C00D6CCF5 /* explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 360B10AD22BC093C00D6CCF5 /* explosion.sks */; };
 		360B10B022BC0A5400D6CCF5 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 360B10AF22BC0A5400D6CCF5 /* explosion.wav */; };
+		360B10B222BC60DA00D6CCF5 /* cyborg-ninja.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 360B10B122BC60DA00D6CCF5 /* cyborg-ninja.mp3 */; };
 		3671242C22B962980080ADF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3671242B22B962980080ADF3 /* AppDelegate.swift */; };
 		3671242E22B962980080ADF3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3671242D22B962980080ADF3 /* GameScene.sks */; };
 		3671243022B962980080ADF3 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3671242F22B962980080ADF3 /* Actions.sks */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		360B10AD22BC093C00D6CCF5 /* explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = explosion.sks; sourceTree = "<group>"; };
 		360B10AF22BC0A5400D6CCF5 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = SOURCE_ROOT; };
+		360B10B122BC60DA00D6CCF5 /* cyborg-ninja.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "cyborg-ninja.mp3"; sourceTree = SOURCE_ROOT; };
 		3671242822B962980080ADF3 /* SpaceForce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceForce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3671242B22B962980080ADF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3671242D22B962980080ADF3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				3671243822B9629A0080ADF3 /* Assets.xcassets */,
 				3671243A22B9629A0080ADF3 /* LaunchScreen.storyboard */,
 				3671243D22B9629A0080ADF3 /* Info.plist */,
+				360B10B122BC60DA00D6CCF5 /* cyborg-ninja.mp3 */,
 				3671244322B98D340080ADF3 /* SpaceDust.sks */,
 				360B10AF22BC0A5400D6CCF5 /* explosion.wav */,
 				360B10AD22BC093C00D6CCF5 /* explosion.sks */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3671243722B962980080ADF3 /* Main.storyboard in Resources */,
+				360B10B222BC60DA00D6CCF5 /* cyborg-ninja.mp3 in Resources */,
 				3671242E22B962980080ADF3 /* GameScene.sks in Resources */,
 				360B10B022BC0A5400D6CCF5 /* explosion.wav in Resources */,
 				3671243922B9629A0080ADF3 /* Assets.xcassets in Resources */,

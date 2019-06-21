@@ -4,7 +4,7 @@
 //
 //  Created by JohelCzarco on 6/18/19.
 //  Copyright © 2019 JohelCzarco. All rights reserved.
-//
+//  Background music my Kevin Macleod,CreativeCommons 3.0
 
 import SpriteKit
 
@@ -16,6 +16,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var touchingPlayer : Bool = false
     var gameTimer : Timer?
     var nodeNum : Int = 0
+    let scoreLabel = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
+    let music = SKAudioNode(fileNamed: "cyborg-ninja.mp3")
+    var score = 0 {
+        didSet{
+            scoreLabel.text = "SCORE : \(score)"
+        }
+    }
     
     override func didMove(to view: SKView) {
         // scene ready to run, background
@@ -36,10 +43,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.contactTestBitMask = 1
         player.name = "spaceship"
         addChild(player)
-        
+        // score Label
+        scoreLabel.zPosition = 2
+        scoreLabel.position.y = 250
+        scoreLabel.position.x = 0
+        score = 0
+        addChild(scoreLabel)
+        //
+        addChild(music)
         gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
         physicsWorld.contactDelegate = self
-    
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -63,6 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        score += 1
     }
     
     func createEnemy() {
@@ -106,7 +120,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "spaceship" || contact.bodyB.node?.name == "enemy" {
             print("coliison")
         }
-        
         guard let nodeA = contact.bodyA.node else {return}
         guard let nodeB = contact.bodyB.node else {return}
         
@@ -121,13 +134,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func playerHit(_ node: SKNode){
         print("player hit")
-//        let soundExplosion = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
-//        run(soundExplosion)
-//        if let explosion = SKEmitterNode(fileNamed: "explosion.sks") {
-//            explosion.position = player.position
-//            explosion.zPosition = 3
-//            addChild(explosion)
-//        }
+        let soundExplosion = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
+        run(soundExplosion)
+        if let explosion = SKEmitterNode(fileNamed: "explosion.sks") {
+            explosion.position = player.position
+            explosion.zPosition = 3
+            addChild(explosion)
+        }
         player.removeFromParent()
     }
     
