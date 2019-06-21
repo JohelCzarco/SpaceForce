@@ -43,6 +43,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.contactTestBitMask = 1
         player.name = "spaceship"
         addChild(player)
+        // smoke from spacechsip
+
         // score Label
         scoreLabel.zPosition = 2
         scoreLabel.position.y = 250
@@ -61,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tappedNodes = nodes(at: location)// nodes precisely in that loc
         if tappedNodes.contains(player) {touchingPlayer = true}
         
+    
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,6 +71,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         player.position = location
+        if let smoke = SKEmitterNode(fileNamed: "mySmoke") {
+            smoke.position = player.position
+            smoke.numParticlesToEmit = 5
+            addChild(smoke)
+            //smoke.advanceSimulationTime(10)
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -76,7 +85,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        score += 1
+        if player.parent != nil { // player hasn't been killed
+            score += 1
+        }
+        // containing player between boundries
+        if player.position.x < -400 {
+            player.position.x = -400
+        } else if player.position.x > 400 {
+            player.position.x = 400
+        }
+        
+        if player.position.y < -300 {
+            player.position.y = -300
+        } else if player.position.y > 300 {
+            player.position.y = 300
+        }
+        // remove old nodes
+        for node in children {
+            if node.position.x < -550 {
+                node.removeFromParent()
+            }
+        }
+        
     }
     
     func createEnemy() {
@@ -147,6 +177,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(gameOver)
         player.removeFromParent()
         music.removeFromParent()
+        restartGame()
+    }
+    
+    func restartGame (){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if let scene = GameScene(fileNamed: "GameScene") {
+                scene.scaleMode = .aspectFill
+                self.view?.presentScene(scene)
+            }
+        }
     }
     
 }
