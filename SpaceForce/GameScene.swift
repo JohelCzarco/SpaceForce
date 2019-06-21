@@ -118,7 +118,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         
         if contact.bodyA.node?.name == "spaceship" || contact.bodyB.node?.name == "enemy" {
-            print("coliison")
+            print("collision")
         }
         guard let nodeA = contact.bodyA.node else {return}
         guard let nodeB = contact.bodyB.node else {return}
@@ -141,7 +141,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             explosion.zPosition = 3
             addChild(explosion)
         }
+        let gameOver = SKSpriteNode(imageNamed: "gameOver")
+        gameOver.zPosition = 10
+        gameOver.position.x = 0
+        addChild(gameOver)
         player.removeFromParent()
+        music.removeFromParent()
     }
     
 }
