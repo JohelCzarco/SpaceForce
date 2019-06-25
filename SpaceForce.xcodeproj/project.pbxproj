@@ -20,6 +20,7 @@
 		3671243922B9629A0080ADF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3671243822B9629A0080ADF3 /* Assets.xcassets */; };
 		3671243C22B9629A0080ADF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3671243A22B9629A0080ADF3 /* LaunchScreen.storyboard */; };
 		3671244422B98D340080ADF3 /* SpaceDust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3671244322B98D340080ADF3 /* SpaceDust.sks */; };
+		36F5BFA822C27F9400230D96 /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F5BFA722C27F9400230D96 /* Live.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		3671243B22B9629A0080ADF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3671243D22B9629A0080ADF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3671244322B98D340080ADF3 /* SpaceDust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SpaceDust.sks; sourceTree = "<group>"; };
+		36F5BFA722C27F9400230D96 /* Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				360B10AF22BC0A5400D6CCF5 /* explosion.wav */,
 				360B10AD22BC093C00D6CCF5 /* explosion.sks */,
 				361BEB7922BD32E200B1B5B5 /* mySmoke.sks */,
+				36F5BFA722C27F9400230D96 /* Live.swift */,
 			);
 			path = SpaceForce;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3671243222B962980080ADF3 /* GameScene.swift in Sources */,
+				36F5BFA822C27F9400230D96 /* Live.swift in Sources */,
 				3671243422B962980080ADF3 /* GameViewController.swift in Sources */,
 				3671242C22B962980080ADF3 /* AppDelegate.swift in Sources */,
 			);

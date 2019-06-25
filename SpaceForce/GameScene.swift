@@ -18,17 +18,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var nodeNum : Int = 0
     let scoreLabel = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
     let music = SKAudioNode(fileNamed: "cyborg-ninja.mp3")
+    var hasBeenHitOnce : Bool = false // detect first crash, reset every scene
+    let restartButton = SKSpriteNode(imageNamed: "reset.png")
+    let livesLabel = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
+
     var score = 0 {
         didSet{
             scoreLabel.text = "SCORE : \(score)"
         }
     }
+    let shockWaveAction : SKAction = {
+        let growAndFadeAction = SKAction.group([SKAction.scale(by: 50, duration: 0.5), SKAction.fadeOut(withDuration: 0.5)])
+        let sequence = SKAction.sequence([growAndFadeAction, SKAction.removeFromParent()])
+        return sequence
+    }()
     
     override func didMove(to view: SKView) {
         // scene ready to run, background
         let background = SKSpriteNode(imageNamed: "space.png")
         background.zPosition = -1 // below other nodes
         addChild(background)
+         addChild(music)
         // space dust stuff
         if let particles = SKEmitterNode(fileNamed: "SpaceDust"){
             particles.advanceSimulationTime(10)
@@ -39,20 +49,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position.x = -300
         player.zPosition = 1
         player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
-        player.physicsBody?.categoryBitMask = 1
+        player.physicsBody?.categoryBitMask = 0 // 1??
         player.physicsBody?.contactTestBitMask = 1
         player.name = "spaceship"
         addChild(player)
-        // smoke from spacechsip
-
         // score Label
         scoreLabel.zPosition = 2
         scoreLabel.position.y = 250
         scoreLabel.position.x = 0
         score = 0
         addChild(scoreLabel)
-        //
-        addChild(music)
+        // lives label
+        livesLabel.zPosition = 3
+        livesLabel.position.x = -280
+        livesLabel.position.y = -240
+        livesLabel.text = "Lives : \(PlayerLives.lives)"
+        addChild(livesLabel)
+       
         gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
         physicsWorld.contactDelegate = self
     }
@@ -63,7 +76,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tappedNodes = nodes(at: location)// nodes precisely in that loc
         if tappedNodes.contains(player) {touchingPlayer = true}
         
-    
+        if tappedNodes.contains(restartButton) {
+            scene?.view!.isPaused = false
+            PlayerLives.lives = 3
+            let fadeAction = SKAction.fadeOut(withDuration: 0.5)
+            restartButton.run(fadeAction)
+            restartGame()
+            //restartButton.isHidden = true
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -71,12 +91,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         player.position = location
-        if let smoke = SKEmitterNode(fileNamed: "mySmoke") {
-            smoke.position = player.position
-            smoke.numParticlesToEmit = 5
-            addChild(smoke)
-            //smoke.advanceSimulationTime(10)
-        }
+        // smoke from spacechsip
+//        if let smoke = SKEmitterNode(fileNamed: "mySmoke") {
+//            smoke.position = player.position
+//            smoke.numParticlesToEmit = 5
+//            smoke.physicsBody?.categoryBitMask = 0
+//            smoke.physicsBody?.contactTestBitMask = 0
+//            addChild(smoke)
+//
+//        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -106,7 +129,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 node.removeFromParent()
             }
         }
-        
     }
     
     func createEnemy() {
@@ -127,17 +149,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func modEnemy(asteroid : SKSpriteNode){
-        
-        let angRotation : Double = Double.random(in: 0.5 ... 2.5)// random rotation speed
+        asteroid.name = "asteroid"
+        let angRotation : Double = Double.random(in: 0.5 ... 2.9)// random rotation speed
         //print(angRotation)
         asteroid.position = CGPoint(x: 320, y: Int.random(in: -260 ... 260))
-        asteroid.name = "enemy"
         asteroid.zPosition = 1
         asteroid.physicsBody?.contactTestBitMask = 1
         asteroid.physicsBody?.categoryBitMask = 0 // avoid collision with itself
         addChild(asteroid)
         asteroid.physicsBody = SKPhysicsBody(texture: asteroid.texture!, size: asteroid.size)
-        asteroid.physicsBody?.velocity = CGVector(dx: -400, dy: 0)
+        asteroid.physicsBody?.velocity = CGVector(dx: -480, dy: 0)
         asteroid.physicsBody?.linearDamping = 0
         // asteroid rotation
         let oneRevolution = SKAction.rotate(byAngle: CGFloat.pi * 2, duration: angRotation)
@@ -147,41 +168,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        if contact.bodyA.node?.name == "spaceship" || contact.bodyB.node?.name == "enemy" {
-            print("collision")
-        }
         guard let nodeA = contact.bodyA.node else {return}
         guard let nodeB = contact.bodyB.node else {return}
         
-        if nodeA == player {
+       // if (nodeA.name == "spaceship" && nodeB.name == "asteroid") {print("collision")}
+    
+        if (nodeA == player && hasBeenHitOnce == false) {
             playerHit(nodeB)
-            print("player hitA")
-        } else {
+            hasBeenHitOnce = true
+            PlayerLives.beenHit()
+            
+        } else if (nodeB == player && hasBeenHitOnce == false) {
+            PlayerLives.beenHit()
             playerHit(nodeA)
-            print("player hitB")
+            hasBeenHitOnce = true
+            
         }
     }
     
     func playerHit(_ node: SKNode){
-        print("player hit")
-        let soundExplosion = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
-        run(soundExplosion)
-        if let explosion = SKEmitterNode(fileNamed: "explosion.sks") {
-            explosion.position = player.position
-            explosion.zPosition = 3
-            addChild(explosion)
+        //playerLives.beenHit()
+        print("lives : \(PlayerLives.lives)")
+        print("hasBeenHitOnce : \(hasBeenHitOnce)")
+        
+        explosionEffects(node)
+        if PlayerLives.lives > 0 {
+            restartGame()
+        } else if PlayerLives.lives == 0 {
+            gameOver()
+            displayRestartButton()
         }
+    }
+    
+    func gameOver(){
+        print("gameOver")
+        player.removeFromParent()
+        music.removeFromParent()
         let gameOver = SKSpriteNode(imageNamed: "gameOver")
         gameOver.zPosition = 10
         gameOver.position.x = 0
         addChild(gameOver)
-        player.removeFromParent()
-        music.removeFromParent()
-        restartGame()
+        scene?.view!.isPaused = true
+    }
+    
+    func displayRestartButton(){
+        
+        restartButton.zPosition = 5
+        restartButton.position.x = 250
+        restartButton.position.y = -200
+        addChild(restartButton)
     }
     
     func restartGame (){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if let scene = GameScene(fileNamed: "GameScene") {
                 scene.scaleMode = .aspectFill
                 self.view?.presentScene(scene)
@@ -189,4 +228,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func explosionEffects(_ node : SKNode){
+        let fadeAction = SKAction.fadeOut(withDuration: 0.5)
+        player.run(fadeAction)
+        let soundExplosion = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
+        run(soundExplosion)
+        if let explosion = SKEmitterNode(fileNamed: "explosion.sks") {
+            explosion.position = player.position
+            explosion.zPosition = 3
+            addChild(explosion)
+        }
+        let shockwave = SKShapeNode(circleOfRadius: 1)
+        shockwave.position = player.position
+        addChild(shockwave)
+        shockwave.run(shockWaveAction)
+        
+    }
 }
